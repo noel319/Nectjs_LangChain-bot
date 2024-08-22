@@ -102,3 +102,5 @@ texts=text_splitter.split_documents(data)
 DB_PATH = "vectorstores/db/"
 vectorstore = Chroma.from_documents(documents=texts, embedding=GPT4AllEmbeddings(), persist_directory=DB_PATH)      
 vectorstore.persist()        
+if __name__ == "__main__":
+    app.run(debug=False, host='127.0.0.1', port=5328)

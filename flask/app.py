@@ -47,11 +47,11 @@ def send_prompt():
     prompt = data['prompt']
     
     llm = ChatOpenAI(
-      temperature=0,
-      openai_api_key=os.getenv('OPENAI_API_KEY'),
-      model='gpt-3.5-turbo',
-      streaming=True,
-      callbacks=[StreamingStdOutCallbackHandlerYield()]
+    temperature=0,
+    openai_api_key=os.getenv('OPENAI_API_KEY'),
+    model='gpt-3.5-turbo',
+    streaming=True,
+    callbacks=[StreamingStdOutCallbackHandlerYield()]
     )
 
     DB_PATH = "vectorstores/db/"
@@ -84,30 +84,21 @@ def send_prompt():
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.embeddings import GPT4AllEmbeddings
-@app.route('/embed', methods=['POST'])
-def embed():
-    try:
-        if 'file' not in request.files:
-            return jsonify({"error": "No file provided"}), 400
-        
-        file = request.files['file']
-        file_content = file.read().decode("utf-8")        
-      
-        text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=1000,
-            chunk_overlap=100,
-            separators=[
-            "\n\n",
-            "\n",
-            ]
-          )
-        texts=text_splitter.create_documents([file_content])
-
-        DB_PATH = "vectorstores/db/"
-        vectorstore = Chroma.from_documents(documents=texts, embedding=GPT4AllEmbeddings(), persist_directory=DB_PATH)      
-        vectorstore.persist()
-
-        return jsonify({"message": "File uploaded successfully"})
-
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+from langchain.document_loaders import TextLoader, DirectoryLoader
+data = []
+txt_loader = DirectoryLoader(
+        "txtdata", glob="**/*.txt", loader_cls=TextLoader, show_progress=True
+    )
+data.extend(txt_loader.load())
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=1000,
+    chunk_overlap=100,
+    separators=[
+    "\n\n",
+    "\n",
+    ]
+)
+texts=text_splitter.split_documents(data)
+DB_PATH = "vectorstores/db/"
+vectorstore = Chroma.from_documents(documents=texts, embedding=GPT4AllEmbeddings(), persist_directory=DB_PATH)      
+vectorstore.persist()        

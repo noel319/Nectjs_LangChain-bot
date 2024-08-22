@@ -29,7 +29,7 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.10",
+    "@tailwindcss/typography": "^0.4.1",
     "@trivago/prettier-plugin-sort-imports": "github:trivago/prettier-plugin-sort-imports",
     "@types/node": "^20",
     "@types/react": "^18",
@@ -37,9 +37,9 @@
     "autoprefixer": "^10.0.1",
     "css-loader": "^6.10.0",
     "eslint": "^8",
-    "eslint-config-next": "14.1.4",
+    "eslint-config-next": "^0.2.4",
     "husky": "^9.0.11",
-    "lint-staged": "^15.2.2",
+    "lint-staged": "^6.1.1",
     "postcss": "^8",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.12",
@@ -47,5 +47,6 @@
     "tailwindcss": "^3.3.0",
     "typescript": "^5",
     "zod": "^3.22.4"
-  }
+  },
+  "packageManager": "pnpm@9.7.1+sha512.faf344af2d6ca65c4c5c8c2224ea77a81a5e8859cbc4e06b1511ddce2f0151512431dd19e6aff31f2c6a8f5f2aced9bd2273e1fed7dd4de1868984059d2c4247"
 }

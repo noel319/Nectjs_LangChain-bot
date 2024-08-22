@@ -1,0 +1,26 @@
+services:
+  flask:
+    container_name: flask
+    working_dir: /flask
+    build:
+      context: ./flask
+      dockerfile: Dockerfile
+    ports:
+      - 5328:5328
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+  python-chat-rag:
+    container_name: python-chat-rag
+    depends_on:
+      - flask
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+    ports:
+      - 3000:3000
+    entrypoint: sh -c "pnpm install && pnpm run build && pnpm run dev"
+    working_dir: /python-chat-rag
+    volumes:
+      - .:/python-chat-rag
